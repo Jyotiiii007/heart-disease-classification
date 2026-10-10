@@ -1,97 +1,247 @@
-Heart Disease Classification
+# ❤️ Heart Disease Classification
 
-A machine learning project that predicts whether a patient has heart disease from clinical measurements, using the Cleveland subset of the UCI Heart Disease dataset. Includes EDA, three classification models, model comparison, feature importance and a Power BI dashboard.
+A Machine Learning project that predicts the presence of heart disease using clinical patient data from the **Cleveland subset of the UCI Heart Disease Dataset**. The project covers data cleaning, exploratory data analysis (EDA), preprocessing, classification models, model evaluation, feature importance, and an interactive Power BI dashboard.
 
-Disclaimer: This is an educational project. It is not a medical diagnostic system.
+> **Disclaimer:** This project is developed for educational purposes only. It is not intended for medical diagnosis or clinical decision-making.
 
-Problem Statement
+## 📌 Project Overview
 
-Given a patient's clinical data (age, chest pain type, blood pressure, cholesterol, heart rate, ECG results, etc.), predict whether heart disease is present (1) or absent (0).
+Heart disease is a major health concern, and analyzing clinical data can help identify patterns associated with its presence. This project uses machine learning techniques to classify patients based on medical attributes such as age, chest pain type, resting blood pressure, cholesterol, maximum heart rate, and exercise-induced angina.
 
-Dataset
-Source: UCI Machine Learning Repository, Heart Disease, Cleveland Clinic Foundation (processed.cleveland.data)
-Size: 303 patients, 13 features + 1 target
-Target: the original num column (0 to 4) was converted to binary: 0 = no disease, 1 = disease (164 vs 139 patients, nearly balanced)
-Missing values: ca (4) and thal (2), handled inside the pipeline
-Why only Cleveland: the Hungarian, Switzerland and VA files have very high missing rates (for example ca missing in over 95% of rows)
-Feature	Description
-age	Age in years
-sex	1 = male, 0 = female
-cp	Chest pain type (1 to 4)
-trestbps	Resting blood pressure (mm Hg)
-chol	Serum cholesterol (mg/dl)
-fbs	Fasting blood sugar > 120 mg/dl
-restecg	Resting ECG result (0 to 2)
-thalach	Maximum heart rate achieved
-exang	Exercise induced angina
-oldpeak	ST depression induced by exercise
-slope	Slope of peak exercise ST segment
-ca	Number of major vessels (0 to 3) coloured by fluoroscopy
-thal	Thalassemia (3 normal, 6 fixed defect, 7 reversible defect)
-Technologies
+The primary objective is to build and compare classification models and understand how different clinical features contribute to their predictions.
 
-Python, Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, Joblib, Jupyter Notebook, Power BI
+## 🎯 Problem Statement
 
-Project Structure
+Given a patient's clinical measurements, predict whether heart disease is present or absent.
+
+- **0 — No heart disease**
+- **1 — Heart disease present**
+
+The project also compares model performance using multiple evaluation metrics, with particular attention to recall because false negatives can be important in a screening context.
+
+## 📊 Dataset
+
+- **Source:** UCI Machine Learning Repository — Heart Disease Dataset
+- **Subset:** Cleveland
+- **Original file:** `processed.cleveland.data`
+- **Total records:** 303 patients
+- **Input features:** 13
+- **Target variable:** Binary classification label derived from the original `num` column
+
+The original target contains values from 0 to 4. It was converted into a binary target, where 0 represents no disease and values 1–4 represent the presence of disease.
+
+| Target | Number of patients |
+|---|---:|
+| No heart disease (0) | 164 |
+| Heart disease present (1) | 139 |
+
+Missing values in the `ca` and `thal` columns were handled through the preprocessing pipeline.
+
+**Why the Cleveland subset?**
+
+The project uses the Cleveland dataset because it provides a manageable dataset for a beginner-friendly classification workflow. Other subsets have substantial missing data, which would require additional investigation and preprocessing.
+
+## 🧾 Features Used
+
+| Feature | Description |
+|---|---|
+| `age` | Patient's age in years |
+| `sex` | Sex (1 = male, 0 = female) |
+| `cp` | Chest pain type |
+| `trestbps` | Resting blood pressure |
+| `chol` | Serum cholesterol level |
+| `fbs` | Whether fasting blood sugar is greater than 120 mg/dl |
+| `restecg` | Resting electrocardiographic results |
+| `thalach` | Maximum heart rate achieved |
+| `exang` | Exercise-induced angina |
+| `oldpeak` | ST depression induced by exercise |
+| `slope` | Slope of the peak exercise ST segment |
+| `ca` | Number of major vessels visualized by fluoroscopy |
+| `thal` | Thalassemia-related test category |
+
+## 🛠️ Technologies Used
+
+- **Programming:** Python
+- **Data manipulation:** Pandas, NumPy
+- **Data visualization:** Matplotlib, Seaborn
+- **Machine learning:** Scikit-learn
+- **Model persistence:** Joblib
+- **Development environment:** Jupyter Notebook
+- **Dashboard and reporting:** Microsoft Power BI
+
+## 🔄 Project Workflow
+
+### 1. Data Cleaning and Preparation
+- Loaded and inspected the dataset.
+- Converted the original target into a binary classification label.
+- Checked for missing values and duplicate records.
+- Examined potential outliers and retained values considered medically plausible.
+- Prepared the cleaned dataset for analysis and visualization.
+
+### 2. Exploratory Data Analysis (EDA)
+
+Explored the relationship between clinical features and heart disease using:
+
+- Target class distribution
+- Age distribution
+- Chest pain type and heart disease
+- Maximum heart rate and heart disease
+- Sex and heart disease
+- Exercise-induced angina and heart disease
+- Correlation matrix
+
+### 3. Data Preprocessing
+
+- Split the data into training and testing sets using an 80:20 ratio.
+- Used stratified sampling to preserve the target class distribution.
+- Applied median imputation and standardization to numerical features.
+- Applied mode imputation and one-hot encoding to categorical features.
+- Used a Scikit-learn Pipeline and fitted preprocessing steps on the training data to reduce data leakage.
+
+### 4. Model Training
+
+Three classification algorithms were implemented and compared:
+
+1. **Logistic Regression** — a baseline classification model.
+2. **Decision Tree** — a tree-based model with `max_depth=4`.
+3. **Random Forest** — an ensemble model using 200 trees.
+
+### 5. Model Evaluation
+
+Models were evaluated using:
+
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- ROC-AUC
+- Confusion matrix
+- 5-fold cross-validation
+
+### 6. Feature Importance
+
+Permutation importance was used to investigate which features most influenced the final model's predictions.
+
+Feature importance describes the model's reliance on features; it does not establish causation.
+
+### 7. Power BI Dashboard
+
+An interactive dashboard was developed to present key findings and make the dataset easier to explore visually.
+
+The cleaned dataset is available for dashboard development in `data/processed/heart_clean.csv`.
+
+## 📈 Model Performance
+
+The following results were obtained from the project evaluation.
+
+| Model | Accuracy | Precision | Recall | F1-score | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 86.9% | 81.2% | 92.9% | 86.7% | 95.8% |
+| Decision Tree | 78.7% | 74.2% | 82.1% | 78.0% | 86.0% |
+| Random Forest | **88.5%** | **81.8%** | **96.4%** | **88.5%** | 94.6% |
+
+*Note: These are the recorded project results. Actual performance can vary depending on the train-test split and experimental setup.*
+
+### 🏆 Final Model: Random Forest
+
+Random Forest was selected as the final model because it achieved the highest accuracy, recall, and F1-score among the three evaluated models.
+
+Its recall of 96.4% indicates that it identified a high proportion of positive cases in the evaluated test set. Recall is particularly relevant when examining false negatives in a screening-oriented classification task.
+
+Logistic Regression also performed well and achieved the highest ROC-AUC in this comparison. Therefore, model selection depends on the evaluation metric and intended use rather than accuracy alone.
+
+## 🔍 Key Findings
+
+- Patients with asymptomatic chest pain (`cp = 4`) showed the highest disease rate in the analyzed dataset, at approximately 73%.
+- Lower maximum heart rate was associated with a higher prevalence of heart disease in the dataset.
+- Exercise-induced angina and higher ST depression values were associated with heart disease.
+- The leading features identified through permutation importance included `ca`, `cp`, `thal`, and `oldpeak`.
+
+These findings describe patterns in this dataset and should not be interpreted as medical conclusions or evidence of causation.
+
+## 📊 Dashboard Preview
+
+![Heart Disease Power BI Dashboard](images/dashboard/dashboard.png)
+
+The Power BI dashboard presents selected patient statistics and visual comparisons to support exploratory analysis.
+
+## 📁 Project Structure
+
+```text
 Heart-disease-classification/
 ├── data/
-│   ├── raw/                  # original UCI files
-│   └── processed/            # heart_clean.csv (used by Power BI)
+│   ├── raw/                 # Original dataset files
+│   └── processed/           # Cleaned dataset for analysis and Power BI
 ├── notebooks/
 │   └── heart_disease_analysis.ipynb
 ├── images/
-│   ├── eda/                  # EDA and evaluation plots
-│   └── dashboard/            # Power BI screenshots
+│   ├── eda/                 # EDA and model evaluation plots
+│   └── dashboard/           # Dashboard screenshots
 ├── models/
 │   └── final_model.pkl
 ├── powerbi/
 │   └── heart_dashboard.pbix
-├── report/
+├── report/                  # Project report
 ├── requirements.txt
 └── README.md
-Methodology
-Data cleaning: created the binary target, checked missing values, duplicates (none) and outliers (kept, since the values are medically plausible)
-EDA: target distribution, age, chest pain type, max heart rate, sex and exercise angina vs target, correlation matrix
-Preprocessing: 80/20 stratified train-test split; a scikit-learn Pipeline with median imputation + StandardScaler for numeric columns, mode imputation + OneHotEncoder for categorical columns. Everything is fitted on the training data only, to avoid data leakage
-Models: Logistic Regression, Decision Tree (max_depth=4), Random Forest (200 trees)
-Evaluation: accuracy, precision, recall, F1, ROC-AUC, confusion matrix and 5-fold cross-validation
-Interpretation: permutation importance on the final model
-Results
-Model	Accuracy	Precision	Recall	F1	ROC-AUC
-Logistic Regression	0.869	0.812	0.929	0.867	0.958
-Decision Tree	0.787	0.742	0.821	0.780	0.860
-Random Forest (final)	0.885	0.818	0.964	0.885	0.946
+```
 
-Final model: Random Forest, chosen for the highest Recall and F1. In a medical screening context, missing a patient who has the disease (false negative) is the costlier mistake, so Recall matters more than accuracy alone. Logistic Regression performed very closely.
+## 🚀 How to Run the Project
 
-Key findings
+### Prerequisites
 
-Patients with asymptomatic chest pain (cp = 4) show the highest disease rate (about 73%)
-Lower maximum heart rate, exercise-induced angina and higher ST depression are associated with disease
-Most important features for the model: ca, cp, thal, oldpeak
-Feature importance shows what the model relies on. It does not prove that a feature causes heart disease
-Dashboard
+Install Python and Git. Jupyter Notebook is used to run the analysis.
 
+### Step 1: Clone the repository
 
-![Dashboard](images/dashboard/dashboard.png)
-How to Run
-bash
-git clone <your-repo-url>
+```bash
+git clone <your-repository-url>
 cd Heart-disease-classification
+```
+
+### Step 2: Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
+
+### Step 3: Open Jupyter Notebook
+
+```bash
 jupyter notebook notebooks/heart_disease_analysis.ipynb
+```
 
-Then run all cells (Kernel > Restart & Run All).
+Restart the kernel and run all cells to reproduce the analysis, model training, and evaluation.
 
-Limitations
-Small dataset (303 patients) from a single hospital, so results may not generalise
-The test set has only 61 rows, so metrics can vary between splits
-Minimal hyperparameter tuning
-Not validated for clinical use
-Future Improvements
-Hyperparameter tuning (GridSearchCV)
-More models (XGBoost, SVM) and more data
-Deploy as a Streamlit web app
-Acknowledgement
+**Note:** Ensure the raw dataset is available at the path expected by the notebook. The Power BI dashboard requires the cleaned CSV file and may need its data source path updated on another computer.
 
-Dataset creators: Andras Janosi (Hungarian Institute of Cardiology), William Steinbrunn (University Hospital, Zurich), Matthias Pfisterer (University Hospital, Basel), Robert Detrano (V.A. Medical Center, Long Beach and Cleveland Clinic Foundation).
+## ⚠️ Limitations
+
+- The dataset contains only 303 patients from the Cleveland subset.
+- The data comes from a limited clinical setting and may not represent other populations.
+- The test set contains approximately 61 patients, so evaluation metrics may vary.
+- Extensive hyperparameter tuning has not been performed.
+- The results have not been independently validated for clinical use.
+- The model should not be used to diagnose or guide the treatment of any patient.
+
+## 🔮 Future Improvements
+
+- Perform hyperparameter tuning using `GridSearchCV`.
+- Evaluate additional algorithms, such as Support Vector Machines and XGBoost.
+- Validate performance using additional datasets and more robust evaluation strategies.
+- Improve the Power BI dashboard with additional interactive filters and insights.
+- Develop a Streamlit application to demonstrate the model's predictions for educational purposes.
+
+## 🙏 Acknowledgements
+
+The Heart Disease Dataset is associated with the following contributors and institutions:
+
+- Andras Janosi — Hungarian Institute of Cardiology
+- William Steinbrunn — University Hospital, Zurich
+- Matthias Pfisterer — University Hospital, Basel
+- Robert Detrano — V.A. Medical Center, Long Beach, and Cleveland Clinic Foundation
+
+**Dataset source:** UCI Machine Learning Repository — Heart Disease Dataset.
+
+
+*Developed as a learning project to practice data analysis, machine learning, model evaluation, and data visualization.*
